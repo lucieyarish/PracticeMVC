@@ -1,0 +1,31 @@
+@model RateMyMentor.ViewModels.MentorViewModel
+<html>
+<head>
+    <title>Rate Your Mentor</title>
+</head>
+<body>
+<h1>Welcome to RateMyMentor!</h1>
+<h3>Give feedback for...</h3>
+<ul>
+@foreach (var mentor in @Model.Mentors)
+{
+    <li><a href="mentor/@mentor.Id">@mentor.Name</a></li>
+    //<li>@Html.ActionLink(@mentor.Name, "GetMentor", "Home")</li>                                                
+}
+</ul>
+<h3>Can't you see your mentors on the list? Add them below!</h3>
+<form method="post" action="mentor">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name"><br/>
+    <label for="class">Class:</label>
+    <select id="class" name="class">
+        <option value="tiptop">Tiptop</option>
+        <option value="roboto">Roboto</option>
+        <option value="really">Really</option>
+        <option value="seadog">Seadog</option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
