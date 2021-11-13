@@ -17,20 +17,20 @@ namespace RateMyMentor.Controllers
         [HttpGet("")]
         public IActionResult ListAll()
         {
-            var result = new MentorViewModel()
+            var result = new IndexViewModel()
             {
                 Mentors = MentorService.FindAll()
             };
             return View("Index", result);
         }
 
-        [HttpGet("mentor/{id:long}")]
-        public IActionResult GetMentor([FromQuery] long id)
+        [HttpGet("mentor/{id}")]
+        public IActionResult GetMentor([FromRoute] long id)
         {
             var foundMentor = MentorService.FindById(id);
             var mentor = new MentorViewModel()
             {
-                Mentor = foundMentor
+                MentorDetail = foundMentor
             };
             return View("MentorDetail", mentor);
         }
