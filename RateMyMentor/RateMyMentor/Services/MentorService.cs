@@ -38,6 +38,25 @@ namespace RateMyMentor.Services
             return savedMentor;
         }
 
+        public bool CheckIfClassExists(string className)
+        {
+            var allClasses = new List<string>()
+            {
+                "Really",
+                "Tiptop",
+                "Seadog",
+                "Roboto"
+            };
+            foreach (var item in allClasses)
+            {
+                if (item.Contains(className))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public List<string> ViewMentors(string className)
         {
             var reallyMentors = new List<string>();
@@ -85,5 +104,13 @@ namespace RateMyMentor.Services
                     return robotoMentors;
             }
         }
+
+        public void RemoveMentor(long id)
+        {
+            Mentor foundMentor = FindById(id);
+            DbContext.Mentors.Remove(foundMentor);
+            DbContext.SaveChanges();
+        }
     }
+    
 }
