@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using RateMyMentor.Models.Entities;
 using RateMyMentor.Services;
@@ -27,12 +28,20 @@ namespace RateMyMentor.Controllers
         [HttpGet("mentor/{id}")]
         public IActionResult GetMentor([FromRoute] long id)
         {
+            
             var foundMentor = MentorService.FindById(id);
             var mentor = new MentorViewModel()
             {
                 MentorDetail = foundMentor
             };
-            return View("MentorDetail", mentor);
+            if (foundMentor is null)
+            {
+                return View("ErrorPage");
+            }
+            else
+            {
+                return View("MentorDetail", mentor);
+            }
         }
         
         [HttpPost("mentor")]
@@ -42,6 +51,16 @@ namespace RateMyMentor.Controllers
             return RedirectToAction("ListAll");
         }
 
-       
+        [HttpGet("api/mentors/{className}")]
+        public IActionResult GetReallyClass([FromRoute] string className)
+        {
+            var reallyMentors = new List<string>();
+            if (className == "really")
+            {
+                reallyMentors = MentorService.ViewReallyMentors(className);
+            }
+            return Ok(new {Name = reallyMentors});
+            return BadRequest(new {error = "Bad request!"});
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RateMyMentor.Models;
 using RateMyMentor.Models.Entities;
 using RateMyMentor.Persistence;
 
@@ -34,6 +35,24 @@ namespace RateMyMentor.Services
             var savedMentor = DbContext.Mentors.Add(mentor).Entity;
             DbContext.SaveChanges();
             return savedMentor;
+        }
+
+        public List<string> ViewReallyMentors(string className)
+        {
+            var reallyMentors = new List<Mentor>();
+            var mentorNames = new List<string>();
+            foreach (var mentor in DbContext.Mentors.ToList())
+            {
+                if (mentor.Class == "really")
+                {
+                    reallyMentors.Add(mentor);
+                }
+            }
+            foreach (var mentor in reallyMentors)
+            {
+                mentorNames.Add(mentor.Name);
+            }
+            return mentorNames;
         }
     }
 }
