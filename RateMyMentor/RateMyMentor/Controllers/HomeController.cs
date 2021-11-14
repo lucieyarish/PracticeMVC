@@ -52,15 +52,17 @@ namespace RateMyMentor.Controllers
         }
 
         [HttpGet("api/mentors/{className}")]
-        public IActionResult GetReallyClass([FromRoute] string className)
+        public IActionResult GetClassMentors([FromRoute] string className)
         {
-            var reallyMentors = new List<string>();
-            if (className == "really")
+            var allMentors = MentorService.ViewMentors(className);
+            if(className is null)
+                return BadRequest(new {error = "Bad request!"});
+            if(allMentors.Count == 0)
             {
-                reallyMentors = MentorService.ViewReallyMentors(className);
+                return NotFound(new {error = "There aren't any mentors in this class!"});
             }
-            return Ok(new {Name = reallyMentors});
-            return BadRequest(new {error = "Bad request!"});
+            return Ok(new {Name = allMentors});
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using RateMyMentor.Models;
 using RateMyMentor.Models.Entities;
 using RateMyMentor.Persistence;
@@ -37,22 +38,52 @@ namespace RateMyMentor.Services
             return savedMentor;
         }
 
-        public List<string> ViewReallyMentors(string className)
+        public List<string> ViewMentors(string className)
         {
-            var reallyMentors = new List<Mentor>();
-            var mentorNames = new List<string>();
-            foreach (var mentor in DbContext.Mentors.ToList())
+            var reallyMentors = new List<string>();
+            var tiptopMentors = new List<string>();
+            var seadogMentors = new List<string>();
+            var robotoMentors = new List<string>();
+            
+            switch (className)
             {
-                if (mentor.Class == "really")
-                {
-                    reallyMentors.Add(mentor);
-                }
+                case "really":
+                    foreach (var mentor in DbContext.Mentors.ToList())
+                    {
+                        if (mentor.Class == "Really")
+                        {
+                            reallyMentors.Add(mentor.Name);
+                        }
+                    }
+                    return reallyMentors;
+                case "tiptop":
+                    foreach (var mentor in DbContext.Mentors.ToList())
+                    {
+                        if (mentor.Class == "Tiptop")
+                        {
+                            tiptopMentors.Add(mentor.Name);
+                        }
+                    }
+                    return tiptopMentors;
+                case "seadog":
+                    foreach (var mentor in DbContext.Mentors.ToList())
+                    {
+                        if (mentor.Class == "Seadog")
+                        {
+                            seadogMentors.Add(mentor.Name);
+                        }
+                    }
+                    return seadogMentors;
+                default:
+                    foreach (var mentor in DbContext.Mentors.ToList())
+                    {
+                        if (mentor.Class == "Roboto")
+                        {
+                            robotoMentors.Add(mentor.Name);
+                        }
+                    }
+                    return robotoMentors;
             }
-            foreach (var mentor in reallyMentors)
-            {
-                mentorNames.Add(mentor.Name);
-            }
-            return mentorNames;
         }
     }
 }
