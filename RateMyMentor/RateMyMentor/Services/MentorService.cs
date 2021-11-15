@@ -138,6 +138,15 @@ namespace RateMyMentor.Services
             DbContext.Mentors.Remove(foundMentor);
             DbContext.SaveChanges();
         }
+
+        public Mentor Update(long id, Mentor toUpdate)
+        {
+            Mentor updatedMentor = FindById(id);
+            updatedMentor.Name = toUpdate.Name;
+            updatedMentor.Class = toUpdate.Class;
+            DbContext.SaveChanges();
+            return updatedMentor;
+        }
     }
     
 }

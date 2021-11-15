@@ -52,13 +52,18 @@ namespace RateMyMentor.Controllers
             return RedirectToAction("ListAll");
         }
 
-        [HttpGet("api/mentors/{className}")]
-        public IActionResult GetClassMentors([FromRoute] string className)
+        [HttpGet("api/mentors/")]
+        public IActionResult GetClassMentors([FromQuery] string className)
         {
             if (!MentorService.CheckIfClassExists(className))
             {
                 return BadRequest(new {error = "Bad request!"});
             }
+
+            // if (string.IsNullOrEmpty(className))
+            // {
+            //     return BadRequest(new {error = "Bad request!"});
+            // }
             
             var allMentors = MentorService.ViewMentors(className);
             if(allMentors.Count == 0)
@@ -72,13 +77,14 @@ namespace RateMyMentor.Controllers
         [HttpPut("api/mentors/{id}")]
         public IActionResult UpdateMentor([FromRoute] long id, [FromBody] Mentor mentor)
         {
-            Mentor toUpdate = MentorService.FindById(id);
-            if (toUpdate is null)
+            // Mentor toUpdate = MentorService.FindById(id);
+            if (mentor is null)
             {
                 return NotFound();
             }
-            toUpdate.Name = mentor.Name;
-            toUpdate.Class = mentor.Class;
+            // toUpdate.Name = mentor.Name;
+            // toUpdate.Class = mentor.Class;
+            Mentor toUpdate = MentorService.Update(id, mentor);
             return Ok(toUpdate);
         }
 
