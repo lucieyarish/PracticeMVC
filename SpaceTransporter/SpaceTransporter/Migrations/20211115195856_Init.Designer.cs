@@ -8,7 +8,7 @@ using SpaceTransporter.Persistence;
 namespace SpaceTransporter.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211115195635_Init")]
+    [Migration("20211115195856_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
