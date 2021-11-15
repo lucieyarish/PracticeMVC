@@ -8,5 +8,6 @@ namespace SpaceTransporter.ViewModels
         public Ship Ship { get; set; }
 
         public List<Ship> Ships { get; set; }
+        public List<Planet> Planets { get; set; }
     }
 }

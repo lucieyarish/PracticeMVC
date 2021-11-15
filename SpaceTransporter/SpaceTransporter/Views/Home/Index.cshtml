@@ -1,8 +1,72 @@
+@model SpaceTransporter.ViewModels.ShipViewModel
+
 <html>
 <head>
     <title>Space Transporter</title>
 </head>
 <body>
+<h1>Spaceship Transport Manager</h1>
+<h2>Ships</h2>
+<table>
+    <tr>
+        <th>#</th>
+        <th>Ship Name:</th>
+        <th>Maximum Warp Speed:</th>
+        <th>Current Location:</th>
+        <th>Docking Action:</th>
+    </tr>
+    
+    @foreach (var ship in @Model.Ships)
+    {
+        <tr>
+            <td>@ship.Id</td>
+            <td>@ship.Name</td>
+            <td>@ship.MaxWarpSpeed</td>
+            <td>@ship.CurrentLocation</td>
+            @if (@ship.IsDocked)
+            {
+                <td>Undocked</td>
+            }
+            else
+            {
+                <td>Docked</td>
+            }
+            @* <form method="post" action=""> *@
+            @*     @if (@ship.IsDocked) *@
+            @*     { *@
+            @*         <td>@Html.ActionLink("Undocked", "DockUndock","Home")</td> *@
+            @*     } *@
+            @*     else *@
+            @*     { *@
+            @*         <td>Docked</td> *@
+            @*     } *@
+            @* </form> *@
+        </tr>
+    }
+</table>
+<h2>Send Ship</h2>
+<p>Ships can only be sent if they are undocked. 
+    If you aren't seeing your ship in the select below, 
+    make sure to undock it above.</p>
+<form method="post" action="">
+    <label for="ship">Which ship should be sent?</label>
+    <select id="ship" name="ship">
+        @foreach (var value in Model.Ships)
+        {
+            <option value="@value.Name">@value.Name</option>
+        }
+        <input type="submit" value="Send the ship!">
+    </select>
+    <label for="planet">To which planet?</label>
+        <select id="planet" name="planet">
+            @foreach (var planet in Model.Planets)
+            {
+                <option value="@planet.Name">@planet.Name</option>
+            }
+            <input type="submit" value="Send the ship!">
+        </select>
+</form>
 
+<h2>Create New Ship</h2>
 </body>
 </html>

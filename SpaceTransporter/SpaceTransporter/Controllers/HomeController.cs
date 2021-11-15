@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using SpaceTransporter.Models.Entities;
 using SpaceTransporter.Services;
+using SpaceTransporter.ViewModels;
 
 namespace SpaceTransporter.Controllers
 {
@@ -13,5 +15,25 @@ namespace SpaceTransporter.Controllers
             PlanetService = planetService;
             ShipService = shipService;
         }
+
+        [HttpGet("")]
+        public IActionResult Index()
+        {
+            var result = new ShipViewModel()
+            {
+                Ships = ShipService.FindAll(),
+                Planets = ShipService.FindAllWithPlanets()
+            };
+            return View(result);
+        }
+
+        // [HttpPost("")]
+        // public IActionResult DockUndock(int id)
+        // {
+        //     var result = new ShipViewModel()
+        //     {
+        //         Ship = ShipService.DockOrUndock(id);
+        //     }
+        // }
     }
 }
