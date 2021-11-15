@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using RateMyMentor.Models.Entities;
 using RateMyMentor.Services;
 using RateMyMentor.ViewModels;
@@ -54,24 +55,32 @@ namespace RateMyMentor.Controllers
         [HttpGet("api/mentors/{className}")]
         public IActionResult GetClassMentors([FromRoute] string className)
         {
-            // if (MentorService.CheckIfClassExists(className))
-            // {
-            //     return BadRequest(new {error = "Bad request!"});
-            // }
+            if (!MentorService.CheckIfClassExists(className))
+            {
+                return BadRequest(new {error = "Bad request!"});
+            }
             
             var allMentors = MentorService.ViewMentors(className);
             if(allMentors.Count == 0)
             {
                 return NotFound(new {error = "There aren't any mentors in this class!"});
             }
-            return Ok(new {Name = allMentors});
+            return Ok(allMentors);
+            // return Ok(allMentors);
         }
 
-        // [HttpPut("api/mentors/{id}")]
-        // public IActionResult UpdateMentor([FromRoute] long id)
-        // {
-        //     
-        // }
+        [HttpPut("api/mentors/{id}")]
+        public IActionResult UpdateMentor([FromRoute] long id, [FromBody] Mentor mentor)
+        {
+            Mentor toUpdate = MentorService.FindById(id);
+            if (toUpdate is null)
+            {
+                return NotFound();
+            }
+            toUpdate.Name = mentor.Name;
+            toUpdate.Class = mentor.Class;
+            return Ok(toUpdate);
+        }
 
         [HttpDelete("api/mentors/{id}")]
         public IActionResult DeleteMentor([FromRoute] long id)

@@ -30,6 +30,17 @@ namespace RateMyMentor.Services
                     .FirstOrDefault();
             return foundMentor;
         }
+        
+        
+
+        // public MentorName FindByClassName(string className)
+        // {
+        //     var foundMentor = FindAll()
+        //         .Where(m => m.Class.ToLower() == className)
+        //         .ToList()
+        //         .FirstOrDefault();
+        //     return foundMentor;
+        // }
 
         public Mentor CreateMentor(Mentor mentor)
         {
@@ -42,10 +53,10 @@ namespace RateMyMentor.Services
         {
             var allClasses = new List<string>()
             {
-                "Really",
-                "Tiptop",
-                "Seadog",
-                "Roboto"
+                "really",
+                "tiptop",
+                "seadog",
+                "roboto"
             };
             foreach (var item in allClasses)
             {
@@ -56,55 +67,71 @@ namespace RateMyMentor.Services
             }
             return false;
         }
-
-        public List<string> ViewMentors(string className)
+        
+        public List<MentorName> FindAllMentorNames(string className)
         {
-            var reallyMentors = new List<string>();
-            var tiptopMentors = new List<string>();
-            var seadogMentors = new List<string>();
-            var robotoMentors = new List<string>();
-            
-            switch (className)
+            var foundMentors = FindAll()
+                .Where(m => m.Class.ToLower() == className)
+                .ToList();
+            var mentorNames = new List<MentorName>();
+            foreach (var item in foundMentors)
             {
-                case "really":
-                    foreach (var mentor in DbContext.Mentors.ToList())
-                    {
-                        if (mentor.Class == "Really")
-                        {
-                            reallyMentors.Add(mentor.Name);
-                        }
-                    }
-                    return reallyMentors;
-                case "tiptop":
-                    foreach (var mentor in DbContext.Mentors.ToList())
-                    {
-                        if (mentor.Class == "Tiptop")
-                        {
-                            tiptopMentors.Add(mentor.Name);
-                        }
-                    }
-                    return tiptopMentors;
-                case "seadog":
-                    foreach (var mentor in DbContext.Mentors.ToList())
-                    {
-                        if (mentor.Class == "Seadog")
-                        {
-                            seadogMentors.Add(mentor.Name);
-                        }
-                    }
-                    return seadogMentors;
-                default:
-                    foreach (var mentor in DbContext.Mentors.ToList())
-                    {
-                        if (mentor.Class == "Roboto")
-                        {
-                            robotoMentors.Add(mentor.Name);
-                        }
-                    }
-                    return robotoMentors;
+                mentorNames.Add(new MentorName()
+                {
+                    Name = item.Name
+                });
             }
+            return mentorNames;
         }
 
+        public List<MentorName> ViewMentors(string className)
+        {
+            var allMentors = new List<MentorName>();
+            allMentors = FindAllMentorNames(className);
+
+            // switch (className)
+            // {
+            //     case "really":
+            //         foreach (var mentor in DbContext.Mentors.ToList())
+            //         {
+            //             if (mentor.Class == "Really")
+            //             {
+            //                 allMentors.Add(new MentorName()
+            //                 {
+            //                     Name = mentor.Name
+            //                 });
+            //             }
+            //         }
+            //         return allMentors;
+                // case "tiptop":
+                //     foreach (var mentor in DbContext.Mentors.ToList())
+                //     {
+                //         if (mentor.Class == "Tiptop")
+                //         {
+                //             tiptopMentors.Add(mentor.Name);
+                //         }
+                //     }
+                //     return tiptopMentors;
+                // case "seadog":
+                //     foreach (var mentor in DbContext.Mentors.ToList())
+                //     {
+                //         if (mentor.Class == "Seadog")
+                //         {
+                //             seadogMentors.Add(mentor.Name);
+                //         }
+                //     }
+                //     return seadogMentors;
+                // default:
+                    // foreach (var mentor in DbContext.Mentors.ToList())
+                    // {
+                    //     if (mentor.Class == "Roboto")
+                    //     {
+                    //         robotoMentors.Add(mentor.Name);
+                    //     }
+                    // }
+                    return allMentors;
+        }
+        
         public void RemoveMentor(long id)
         {
             Mentor foundMentor = FindById(id);
