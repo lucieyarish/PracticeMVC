@@ -83,7 +83,26 @@ namespace SpaceTransporter.Controllers
             };
             return View("Index", result);
         }
-        
+
+        [HttpDelete("planet/{id}")]
+        public IActionResult RemovePlanet([FromRoute] int id)
+        {
+            PlanetService.DeletePlanet(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("ships")]
+        public IActionResult ReturnFastestShips([FromQuery] float warpAtLeast)
+        {
+            var fastestShips = ShipService.ReturnFastest(warpAtLeast);
+            var result = new ShipViewModel()
+            {
+                // Ship = foundShip,
+                Ships = fastestShips,
+                Planets = ShipService.FindAllWithPlanets()
+            };
+            return View("Index", result);
+        }
         
         
     }

@@ -93,5 +93,10 @@ namespace SpaceTransporter.Services
             }
             return FindAll();
         }
+
+        public List<Ship> ReturnFastest(float warpAtLeast)
+        {
+            return DbContext.Ships.Where(s => s.MaxWarpSpeed >= warpAtLeast).ToList();
+        }
     }
 }
