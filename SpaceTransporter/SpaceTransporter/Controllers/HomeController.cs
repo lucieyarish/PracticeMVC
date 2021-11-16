@@ -40,14 +40,41 @@ namespace SpaceTransporter.Controllers
             return View("Index", result);
 
         }
+        
+        [HttpPost("ships")]
+        public IActionResult CreateShip(Ship newShip)
+        {
+            var shipToSave = ShipService.CreateNewShip(newShip);
+            var result = new ShipViewModel()
+            {
+                Ship = shipToSave,
+                Ships = ShipService.FindAll(),
+                Planets = ShipService.FindAllWithPlanets()
+            };
+            return View("Index", result);
+        }
 
-        // [HttpPost("")]
-        // public IActionResult DockUndock(int id)
+        // [HttpPost("ships")]
+        // public IActionResult CreateShip(Ship newShip)
         // {
+        //     Planet foundPlanet = ShipService.FindPlanetByPlanetId(newShip);
+        //     int planetId = foundPlanet.Id;
+        //     ShipService.CreateNewShip(newShip, planetId);
         //     var result = new ShipViewModel()
         //     {
-        //         Ship = ShipService.DockAndUndock(id);
-        //     }
+        //         Ship = newShip,
+        //         Ships = ShipService.FindAll(),
+        //         Planets = ShipService.FindAllWithPlanets()
+        //     };
+        //     return View("Index", result);
         // }
+        
+        [HttpPost("ships/{id}/move")]
+        public IActionResult MoveShip([FromQuery] int id)
+        {
+            var foundShip = ShipService.CheckIfDocked(id);
+            
+        }
+        
     }
 }

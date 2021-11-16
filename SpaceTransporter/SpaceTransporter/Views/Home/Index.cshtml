@@ -1,4 +1,6 @@
+@using SpaceTransporter.Models.Entities
 @model SpaceTransporter.ViewModels.ShipViewModel
+@using System.Linq
 
 <html>
 <head>
@@ -22,7 +24,14 @@
             <td>@ship.Id</td>
             <td>@ship.Name</td>
             <td>@ship.MaxWarpSpeed</td>
-            <td>@ship.CurrentLocation</td>
+            <td>@Model.Planets.Where(s => s.Id == @ship.PlanetId).Select(s => s.Name).FirstOrDefault()</td>
+            @* <td>@foreach (var planet in @Model.Planets) *@
+            @*     { *@
+            @*         @if (@ship.PlanetId == planet.Id) *@
+            @*         { *@
+            @*             @planet *@
+            @*         } *@
+            @*     }</td> *@
             <form method="post" action="~/@ship.Id/edit">
                 @if (@ship.IsDocked)
                 {
@@ -35,7 +44,6 @@
                     <td><input type="submit" value="Docked"></td>
                 }
             </form>
-            
         </tr>
     }
 </table>
@@ -57,24 +65,28 @@
         {
             <option value="@planet.Name">@planet.Name</option>
         }
-            
     </select>
     <input type="submit" value="Send the ship!">
 </form>
 
 <h2>Create New Ship</h2>
-<form method="post" action="">
+@using (Html.BeginForm("CreateShip", "Home", FormMethod.Post))
+{
+    //@Html.LabelFor(model => model.Ship.Name);
+    //@Html.TextBoxFor(model => model.Ship.Name);
     <label for="shipName">Ship Name:</label>
-    <input type="text" id="shipName" name="shipName">
+    <input type="text" id="shipName" name="Name">
     <label for="maxWarp">Maximum Warp:</label>
-    <input type="text" id="maxWarp" name="maxWarp">
-    <select id="planet" name="planet">Starting Planet:
-        @foreach (var planet in Model.Planets)
+    <input type="text" id="maxWarp" name="MaxWarpSpeed">
+    //@Html.LabelFor(model => model.Ship.MaxWarpSpeed);
+    //@Html.TextBoxFor(model => model.Ship.MaxWarpSpeed);
+    <select id="planetName" name="PlanetId">
+        @foreach (var item in Model.Planets)
         {
-            <option value="@planet.Name">@planet.Name</option>
+            <option id="planetName" value="@item.Id">@item.Name</option>
         }
-        </select>
+    </select>
     <input type="submit" value="Create the ship!">
-</form>
+}
 </body>
 </html>
