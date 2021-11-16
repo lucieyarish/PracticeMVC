@@ -23,24 +23,19 @@
             <td>@ship.Name</td>
             <td>@ship.MaxWarpSpeed</td>
             <td>@ship.CurrentLocation</td>
-            @if (@ship.IsDocked)
-            {
-                <td>Undocked</td>
-            }
-            else
-            {
-                <td>Docked</td>
-            }
-            @* <form method="post" action=""> *@
-            @*     @if (@ship.IsDocked) *@
-            @*     { *@
-            @*         <td>@Html.ActionLink("Undocked", "DockUndock","Home")</td> *@
-            @*     } *@
-            @*     else *@
-            @*     { *@
-            @*         <td>Docked</td> *@
-            @*     } *@
-            @* </form> *@
+            <form method="post" action="~/@ship.Id/edit">
+                @if (@ship.IsDocked)
+                {
+                    //<td>@Html.ActionLink("Undocked", "HandleDockedUndocked","Home")</td>
+                    <td><input type="submit" value="Undocked"></td>
+                }
+                else
+                {
+                    //<td>@Html.ActionLink("Docked", "HandleDockedUndocked","Home")</td>
+                    <td><input type="submit" value="Docked"></td>
+                }
+            </form>
+            
         </tr>
     }
 </table>
@@ -55,18 +50,31 @@
         {
             <option value="@value.Name">@value.Name</option>
         }
-        <input type="submit" value="Send the ship!">
     </select>
     <label for="planet">To which planet?</label>
-        <select id="planet" name="planet">
-            @foreach (var planet in Model.Planets)
-            {
-                <option value="@planet.Name">@planet.Name</option>
-            }
-            <input type="submit" value="Send the ship!">
-        </select>
+    <select id="planet" name="planet">
+        @foreach (var planet in Model.Planets)
+        {
+            <option value="@planet.Name">@planet.Name</option>
+        }
+            
+    </select>
+    <input type="submit" value="Send the ship!">
 </form>
 
 <h2>Create New Ship</h2>
+<form method="post" action="">
+    <label for="shipName">Ship Name:</label>
+    <input type="text" id="shipName" name="shipName">
+    <label for="maxWarp">Maximum Warp:</label>
+    <input type="text" id="maxWarp" name="maxWarp">
+    <select id="planet" name="planet">Starting Planet:
+        @foreach (var planet in Model.Planets)
+        {
+            <option value="@planet.Name">@planet.Name</option>
+        }
+        </select>
+    <input type="submit" value="Create the ship!">
+</form>
 </body>
 </html>

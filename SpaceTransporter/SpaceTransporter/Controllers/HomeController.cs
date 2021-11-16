@@ -27,12 +27,26 @@ namespace SpaceTransporter.Controllers
             return View(result);
         }
 
+        [HttpPost("{id}/edit")]
+        public IActionResult HandleDockedUndocked([FromRoute]int id)
+        {
+            var foundShip = ShipService.EditDockAndUndock(id);
+            var result = new ShipViewModel()
+            {
+                Ship = foundShip,
+                Ships = ShipService.FindAll(),
+                Planets = ShipService.FindAllWithPlanets()
+            };
+            return View("Index", result);
+
+        }
+
         // [HttpPost("")]
         // public IActionResult DockUndock(int id)
         // {
         //     var result = new ShipViewModel()
         //     {
-        //         Ship = ShipService.DockOrUndock(id);
+        //         Ship = ShipService.DockAndUndock(id);
         //     }
         // }
     }

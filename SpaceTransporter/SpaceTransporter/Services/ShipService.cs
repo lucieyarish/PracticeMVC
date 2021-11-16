@@ -30,14 +30,13 @@ namespace SpaceTransporter.Services
             return DbContext.Ships.Where(s => s.Id == id).ToList().FirstOrDefault();
         }
 
-        // public bool DockOrUndock(int id)
-        // {
-        //     var shipToUndock = FindById(id);
-        //     if (shipToUndock.IsDocked)
-        //     {
-        //         return shipToUndock.IsDocked == true;
-        //     }
-        //     return shipToUndock.IsDocked;
-        // }
+        public Ship EditDockAndUndock(int id)
+        {
+            var foundShip = FindById(id);
+            foundShip.IsDocked = !foundShip.IsDocked;
+            DbContext.SaveChanges();
+            return FindById(id);
+        }
+        
     }
 }
