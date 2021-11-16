@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using SpaceTransporter.Models;
 using SpaceTransporter.Models.Entities;
 using SpaceTransporter.Persistence;
 
@@ -94,9 +95,32 @@ namespace SpaceTransporter.Services
             return FindAll();
         }
 
-        public List<Ship> ReturnFastest(float warpAtLeast)
+        public List<FastShip> FindAllFastShips(float warpAtLeast)
         {
-            return DbContext.Ships.Where(s => s.MaxWarpSpeed >= warpAtLeast).ToList();
+            var foundFastShips = FindAll()
+                .Where(s => s.MaxWarpSpeed >= warpAtLeast)
+                .ToList();
+            var fastShips = new List<FastShip>();
+            foreach (var item in foundFastShips)
+            {
+                fastShips.Add(new FastShip()
+                {
+                    Name = item.Name,
+                    Id = item.Id,
+                    // Location = item.Planet.Name,
+                    MaximumWarp = item.MaxWarpSpeed,
+                    IsDocked = item.IsDocked
+                });
+            }
+
+            return fastShips;
+        }
+
+        public List<FastShip> ReturnFastest(float warpAtLeast)
+        {
+            var foundFastShips = FindAllFastShips(warpAtLeast);
+            var orderedFastShips = foundFastShips.Where(s => s.MaximumWarp >= warpAtLeast).OrderByDescending(x => x.MaximumWarp).ToList();
+            return orderedFastShips;
         }
     }
 }

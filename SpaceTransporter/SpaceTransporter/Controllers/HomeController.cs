@@ -95,13 +95,14 @@ namespace SpaceTransporter.Controllers
         public IActionResult ReturnFastestShips([FromQuery] float warpAtLeast)
         {
             var fastestShips = ShipService.ReturnFastest(warpAtLeast);
-            var result = new ShipViewModel()
-            {
-                // Ship = foundShip,
-                Ships = fastestShips,
-                Planets = ShipService.FindAllWithPlanets()
-            };
-            return View("Index", result);
+            // var result = new ShipViewModel()
+            // {
+            //     // Ship = foundShip,
+            //     FastestShips = fastestShips,
+            //     Planets = ShipService.FindAllWithPlanets()
+            // };
+            // return View("Index", result);
+            return Ok(fastestShips);
         }
         
         

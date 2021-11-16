@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SpaceTransporter.Models;
 using SpaceTransporter.Models.Entities;
 
 namespace SpaceTransporter.ViewModels
@@ -9,5 +10,6 @@ namespace SpaceTransporter.ViewModels
 
         public List<Ship> Ships { get; set; }
         public List<Planet> Planets { get; set; }
+        public List<FastShip> FastestShips { get; set; }
     }
 }
