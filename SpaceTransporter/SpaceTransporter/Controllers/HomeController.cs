@@ -72,9 +72,19 @@ namespace SpaceTransporter.Controllers
         [HttpPost("ships/{id}/move")]
         public IActionResult MoveShip([FromQuery] int id)
         {
-            var foundShip = ShipService.CheckIfDocked(id);
-            
+            var foundShip = ShipService.FindById(id);
+            ShipService.CheckIfDocked(id);
+            ShipService.ReturnUndocked(id, foundShip);
+            var result = new ShipViewModel()
+            {
+                Ship = foundShip,
+                Ships = ShipService.FindAll(),
+                Planets = ShipService.FindAllWithPlanets()
+            };
+            return View("Index", result);
         }
+        
+        
         
     }
 }

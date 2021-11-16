@@ -82,12 +82,16 @@ namespace SpaceTransporter.Services
             return FindById(id).IsDocked;
         }
 
-        public Ship ReturnUndocked(int id, Ship ship)
+        public List<Ship> ReturnUndocked(int id, Ship ship)
         {
             if (!CheckIfDocked(id))
             {
-                ship.PlanetId =
+                var foundShip = FindById(id);
+                foundShip.PlanetId = ship.PlanetId;
+                DbContext.SaveChanges();
+                return FindAll();
             }
+            return FindAll();
         }
     }
 }

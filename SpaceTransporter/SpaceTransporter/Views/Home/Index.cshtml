@@ -51,23 +51,24 @@
 <p>Ships can only be sent if they are undocked. 
     If you aren't seeing your ship in the select below, 
     make sure to undock it above.</p>
-<form method="post" action="">
+@using (Html.BeginForm("MoveShip", "Home", FormMethod.Post))
+{
     <label for="ship">Which ship should be sent?</label>
-    <select id="ship" name="ship">
+    <select id="ship" name="Name">
         @foreach (var value in Model.Ships)
         {
             <option value="@value.Name">@value.Name</option>
         }
     </select>
     <label for="planet">To which planet?</label>
-    <select id="planet" name="planet">
+    <select id="planet" name="PlanetId">
         @foreach (var planet in Model.Planets)
         {
-            <option value="@planet.Name">@planet.Name</option>
+            <option value="@planet.Id">@planet.Name</option>
         }
     </select>
     <input type="submit" value="Send the ship!">
-</form>
+}
 
 <h2>Create New Ship</h2>
 @using (Html.BeginForm("CreateShip", "Home", FormMethod.Post))
